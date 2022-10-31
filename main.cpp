@@ -12,6 +12,13 @@ void StringTransVec(vector<char>& vecstr, const char str[]) {
 	}
 }
 
+void PushBack(list<vector<char>>& lst, const char str[]) {
+	vector<char> vecstr;
+
+	StringTransVec(vecstr, str);
+	lst.push_back(vecstr);
+}
+
 void PushNewStation(list<vector<char>>& lst, const char beforeStr[], const char newStr[]) {
 	vector<char> vecstr;
 	StringTransVec(vecstr, beforeStr);
@@ -31,70 +38,63 @@ int main() {
 	list<vector<char>> lst;
 	vector<char> station;
 
-	StringTransVec(station, "Tokyo");
-	lst.push_back(station);
-	StringTransVec(station, "Yurakucho");
-	lst.push_back(station);
-	StringTransVec(station, "Shimbashi");
-	lst.push_back(station);
-	StringTransVec(station, "Hamamatsucho");
-	lst.push_back(station);
-	StringTransVec(station, "Tamachi");
-	lst.push_back(station);
-	//StringTransVec(station, "Takanawa Gateway");
-	//lst.push_back(station);
-	StringTransVec(station, "Shinagawa");
-	lst.push_back(station);
-	StringTransVec(station, "Osaki");
-	lst.push_back(station);
-	StringTransVec(station, "Gotanda");
-	lst.push_back(station);
-	StringTransVec(station, "Meguro");
-	lst.push_back(station);
-	StringTransVec(station, "Ebisu");
-	lst.push_back(station);
-	StringTransVec(station, "Shibuya");
-	lst.push_back(station);
-	StringTransVec(station, "Harajuku");
-	lst.push_back(station);
-	StringTransVec(station, "Yoyogi");
-	lst.push_back(station);
-	StringTransVec(station, "Shinjuku");
-	lst.push_back(station);
-	StringTransVec(station, "Shin-Okubo");
-	lst.push_back(station);
-	StringTransVec(station, "Takadanobaba");
-	lst.push_back(station);
-	StringTransVec(station, "Mejiro");
-	lst.push_back(station);
-	StringTransVec(station, "Ikebukuro");
-	lst.push_back(station);
-	StringTransVec(station, "Otsuka");
-	lst.push_back(station);
-	StringTransVec(station, "Sugamo");
-	lst.push_back(station);
-	StringTransVec(station, "Komagome");
-	lst.push_back(station);
-	StringTransVec(station, "Tabata");
-	lst.push_back(station);
-	//StringTransVec(station, "Nishi-Nippori");
-	//lst.push_back(station);
-	StringTransVec(station, "Nippori");
-	lst.push_back(station);
-	StringTransVec(station, "Uguisudani");
-	lst.push_back(station);
-	StringTransVec(station, "Ueno");
-	lst.push_back(station);
-	StringTransVec(station, "Okachimachi");
-	lst.push_back(station);
-	StringTransVec(station, "Akihabara");
-	lst.push_back(station);
-	StringTransVec(station, "Kanda");
-	lst.push_back(station);
-
-	PushNewStation(lst, "Tamachi", "Takanawa Gateway");
+	PushBack(lst, "Tokyo");
+	PushBack(lst, "Yurakucho");
+	PushBack(lst, "Shimbashi");
+	PushBack(lst, "Hamamatsucho");
+	PushBack(lst, "Tamachi");
+	PushBack(lst, "Shinagawa");
+	PushBack(lst, "Osaki");
+	PushBack(lst, "Gotanda");
+	PushBack(lst, "Meguro");
+	PushBack(lst, "Ebisu");
+	PushBack(lst, "Shibuya");
+	PushBack(lst, "Harajuku");
+	PushBack(lst, "Yoyogi");
+	PushBack(lst, "Shinjuku");
+	PushBack(lst, "Shin-Okubo");
+	PushBack(lst, "Takadanobaba");
+	PushBack(lst, "Mejiro");
+	PushBack(lst, "Ikebukuro");
+	PushBack(lst, "Otsuka");
+	PushBack(lst, "Sugamo");
+	PushBack(lst, "Komagome");
+	PushBack(lst, "Tabata");
+	PushBack(lst, "Nippori");
+	PushBack(lst, "Uguisudani");
+	PushBack(lst, "Ueno");
+	PushBack(lst, "Okachimachi");
+	PushBack(lst, "Akihabara");
+	PushBack(lst, "Kanda");
 
 	//	•`‰æ
+	printf("1970”N\n");
+	for (vector<char>& strlist : lst)
+	{
+		for (int i = 0; i < strlist.size(); i++)
+		{
+			printf("%c", strlist[i]);
+		}
+		printf("\n");
+	}
+
+	//	Push
+	PushNewStation(lst, "Tabata", "Nishi-Nippori");
+	//	•`‰æ
+	printf("\n2019”N\n");
+	for (vector<char>& strlist : lst)
+	{
+		for (int i = 0; i < strlist.size(); i++)
+		{
+			printf("%c", strlist[i]);
+		}
+		printf("\n");
+	}
+
+	//	Push
+	PushNewStation(lst, "Tamachi", "Takanawa Gateway");
+	//	•`‰æ
+	printf("\n2022”N\n");
 	for (vector<char>& strlist : lst)
 	{
 		for (int i = 0; i < strlist.size(); i++)

@@ -1,108 +1,213 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <list>
 #include <vector>
 #include <iostream>
 using namespace std;
 
-void StringTransVec(vector<char>& vecstr, const char str[]) {
-	int len = strlen(str);
-	vecstr.resize(len);
-	for (int i = 0; i < len; i++) {
-		vecstr[i] = str[i];
-	}
-}
+typedef struct CELL{
+	int val;
+	struct CELL* prev;
+	struct CELL* next;
+}CELL;
 
-void PushBack(list<vector<char>>& lst, const char str[]) {
-	vector<char> vecstr;
+void Create(CELL* currentCell, int val);
+void Delete(CELL* currentCell);
+void Edit(CELL* currentCell, int val);
+void Index(CELL* endCell);
+void Index(CELL* endCell, int iterator);
+CELL* GetInsertListAddress(CELL* endCELL, int iterator);
 
-	StringTransVec(vecstr, str);
-	lst.push_back(vecstr);
-}
+int main() {
+	int iterator;
+	int inputValue;
+	CELL* insertCell;
+	int num = 0;
+	CELL head;
+	head.prev = nullptr;
+	head.next = nullptr;
 
-void PushNewStation(list<vector<char>>& lst, const char beforeStr[], const char newStr[]) {
-	vector<char> vecstr;
-	StringTransVec(vecstr, beforeStr);
+	int mord = -1;
 
-	for (list<vector<char>>::iterator itr = lst.begin(); itr != lst.end(); ++itr)
-	{
-		if (*itr == vecstr) {
-			itr++;
-			StringTransVec(vecstr, newStr);
-			itr = lst.insert(itr, vecstr);
+	while (mord != 0) {
+		mord = -1;
+
+		printf("操作を選択してください\n0:終了 1:表示 2:挿入 3:編集 4:削除\n");
+		scanf_s("%d", &mord);
+
+		switch (mord)
+		{
+		case 0:
+			printf("終了します\n");
+			break;
+		case 1:
+			if (head.next != nullptr) {
+				while (true)
+				{
+					printf("表示方法を選択してください\n1:一覧表示 2:順番指定 9:戻る\n");
+					scanf_s("%d", &mord);
+
+					switch (mord)
+					{
+					case 1:
+						printf("要素数: %d\n", num);
+
+						Index(&head);
+						break;
+					case 2:
+						printf("何番目のセルを表示しますか?\n");
+						scanf_s("%d", &iterator);
+
+						Index(&head, iterator);
+						break;
+					case 9:
+						printf("要素操作に戻る\n");
+						break;
+					default:
+						printf("入力が間違っています\n");
+						continue;
+						break;
+					}
+
+					if (mord == 9) break;
+
+					printf("1:要素の表示に戻る 2:要素の操作に戻る\n");
+					scanf_s("%d", &mord);
+					if (mord == 2) break;
+				}
+			}
+			else {
+				printf("表示する要素がありません\n");
+			}			
+			break;
+		case 2:
+			printf("何番目のセルの後ろに挿入しますか?\n");
+			scanf_s("%d", &iterator);
+
+			printf("挿入する値を入力してください\n");
+			scanf_s("%d", &inputValue);
+
+			insertCell = GetInsertListAddress(&head, iterator);
+			Create(insertCell, inputValue);
+			num++;
+			break;
+		case 3:
+			if (head.next != nullptr) {
+				printf("編集したい要素の番号を指定してください\n");
+				scanf_s("%d", &iterator);
+
+				insertCell = GetInsertListAddress(&head, iterator);
+
+				if (num < iterator) {
+					printf("%d番目の要素が見つかりませんでした\n", iterator);
+				}
+				else {
+					printf("%d番目の要素の変更する値を入力してください\n", iterator);
+					scanf_s("%d", &inputValue);
+
+					Edit(insertCell, inputValue);
+
+					printf("%d番目の要素の値が%dに変更されました。\n", iterator, inputValue);
+				}
+			}
+			else {
+				printf("編集できる要素がありません\n");
+			}			
+			break;
+		case 4:
+			if (head.next != nullptr) {
+				printf("削除したい要素の番号を指定してください\n");
+				scanf_s("%d", &iterator);
+
+				insertCell = GetInsertListAddress(&head, iterator);
+				if (num < iterator) {
+					printf("%d番目の要素が見つかりませんでした\n", iterator);
+				}
+				else {
+					inputValue = insertCell->val;
+					Delete(insertCell);
+					num--;
+
+					printf("%d番目の要素%dを削除しました。\n", iterator, inputValue);
+				}
+			}
+			else {
+				printf("削除できる要素がありません\n");
+			}
+			break;
+		default:
+			printf("入力が間違っています\n");
 			break;
 		}
 	}
-}
 
-int main() {
-	list<vector<char>> lst;
-	vector<char> station;
-
-	PushBack(lst, "Tokyo");
-	PushBack(lst, "Yurakucho");
-	PushBack(lst, "Shimbashi");
-	PushBack(lst, "Hamamatsucho");
-	PushBack(lst, "Tamachi");
-	PushBack(lst, "Shinagawa");
-	PushBack(lst, "Osaki");
-	PushBack(lst, "Gotanda");
-	PushBack(lst, "Meguro");
-	PushBack(lst, "Ebisu");
-	PushBack(lst, "Shibuya");
-	PushBack(lst, "Harajuku");
-	PushBack(lst, "Yoyogi");
-	PushBack(lst, "Shinjuku");
-	PushBack(lst, "Shin-Okubo");
-	PushBack(lst, "Takadanobaba");
-	PushBack(lst, "Mejiro");
-	PushBack(lst, "Ikebukuro");
-	PushBack(lst, "Otsuka");
-	PushBack(lst, "Sugamo");
-	PushBack(lst, "Komagome");
-	PushBack(lst, "Tabata");
-	PushBack(lst, "Nippori");
-	PushBack(lst, "Uguisudani");
-	PushBack(lst, "Ueno");
-	PushBack(lst, "Okachimachi");
-	PushBack(lst, "Akihabara");
-	PushBack(lst, "Kanda");
-
-	//	描画
-	printf("1970年\n");
-	for (vector<char>& strlist : lst)
-	{
-		for (int i = 0; i < strlist.size(); i++)
-		{
-			printf("%c", strlist[i]);
-		}
-		printf("\n");
-	}
-
-	//	Push
-	PushNewStation(lst, "Tabata", "Nishi-Nippori");
-	//	描画
-	printf("\n2019年\n");
-	for (vector<char>& strlist : lst)
-	{
-		for (int i = 0; i < strlist.size(); i++)
-		{
-			printf("%c", strlist[i]);
-		}
-		printf("\n");
-	}
-
-	//	Push
-	PushNewStation(lst, "Tamachi", "Takanawa Gateway");
-	//	描画
-	printf("\n2022年\n");
-	for (vector<char>& strlist : lst)
-	{
-		for (int i = 0; i < strlist.size(); i++)
-		{
-			printf("%c", strlist[i]);
-		}
-		printf("\n");
-	}
+	system("pause");
 
 	return 0;
+}
+
+void Create(CELL* currentCell, int val) {
+	CELL* newCell;
+	newCell = (CELL*)malloc(sizeof(CELL));
+	newCell->val = val;
+	newCell->prev = currentCell;
+	newCell->next = currentCell->next;
+
+	if (currentCell->next) {
+		CELL* nextCell = currentCell->next;
+		nextCell->prev = newCell;
+	}
+
+	currentCell->next = newCell;
+}
+
+void Delete(CELL* currentCell) {
+	CELL* nextCell = currentCell->next;
+	CELL* prevCell = currentCell->prev;
+
+	prevCell->next = nextCell;
+	if (currentCell->next != nullptr) {
+		nextCell->prev = prevCell;
+	}
+}
+
+void Edit(CELL* currentCell, int val) {
+	currentCell->val = val;
+}
+
+void Index(CELL* endCell) {
+	int no = 1;
+
+	while (endCell->next != nullptr)
+	{
+		endCell = endCell->next;
+		printf("%d:", no);
+		printf("%p", endCell->prev);
+		printf("%5d", endCell->val);
+		printf("(%p)", endCell);
+		printf("%p\n", endCell->next);
+		no++;
+	}
+}
+
+void Index(CELL* endCell, int iterator) {
+	CELL* insertCell = GetInsertListAddress(endCell, iterator);
+
+	printf("%d:", iterator);
+	printf("%p", insertCell->prev);
+	printf("%5d", insertCell->val);
+	printf("(%p)", insertCell);
+	printf("%p\n", insertCell->next);	
+}
+
+CELL* GetInsertListAddress(CELL* endCELL, int iterator) {
+	for (int i = 0; i < iterator; i++) {
+		if (endCELL->next) {
+			endCELL = endCELL->next;
+		}
+		else {
+			break;
+		}
+	}
+	return endCELL;
 }

@@ -81,15 +81,19 @@ int main() {
 			}			
 			break;
 		case 2:
-			printf("‰½”Ô–Ú‚ÌƒZƒ‹‚ÌŒã‚ë‚É‘}“ü‚µ‚Ü‚·‚©?\n");
+			printf("—v‘f‚ð’Ç‰Á‚·‚éêŠ‚ðŽw’è‚µ‚Ä‚­‚¾‚³‚¢\n");
 			scanf_s("%d", &iterator);
 
-			printf("‘}“ü‚·‚é’l‚ð“ü—Í‚µ‚Ä‚­‚¾‚³‚¢\n");
+			printf("’Ç‰Á‚·‚é—v‘f‚Ì’l‚ð“ü—Í‚µ‚Ä‚­‚¾‚³‚¢\n");
 			scanf_s("%d", &inputValue);
 
 			insertCell = GetInsertListAddress(&head, iterator);
 			Create(insertCell, inputValue);
 			num++;
+
+			if (iterator > num) iterator = num;
+
+			printf("—v‘f%d‚ª%d”Ô–Ú‚É‘}“ü‚³‚ê‚Ü‚µ‚½\n", inputValue, iterator);
 			break;
 		case 3:
 			if (head.next != nullptr) {

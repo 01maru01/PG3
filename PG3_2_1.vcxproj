@@ -147,23 +147,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="GameClearScene.cpp" />
-    <ClCompile Include="GamePlayScene.cpp" />
-    <ClCompile Include="IFScene.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="NewGameScene.cpp" />
-    <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameClearScene.h" />
-    <ClInclude Include="GamePlayScene.h" />
-    <ClInclude Include="IFScene.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Input.h" />
-    <ClInclude Include="NewGameScene.h" />
-    <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="TitleScene.h" />
+    <ClInclude Include="main.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

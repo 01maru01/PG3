@@ -1,15 +1,9 @@
 #include "DxLib.h"
-#include "SceneManager.h"
+#include "main.h"
 #include "Input.h"
-
-// ウィンドウのタイトルに表示する文字列
-const char TITLE[] = "LE2A_17_マルイチユウキ";
-
-// ウィンドウ横幅
-const int WIN_WIDTH = 600;
-
-// ウィンドウ縦幅
-const int WIN_HEIGHT = 400;
+#include "Enemy.h"
+#include <list>
+#include <memory>
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine,
 	_In_ int nCmdShow) {
@@ -42,8 +36,13 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 
 	// ゲームループで使う変数の宣言
-	SceneManager* sceneManager = SceneManager::GetInstance();
-	sceneManager->Initialize();
+	std::list<std::unique_ptr<Enemy>> enemys;
+
+	for (size_t i = 0; i < 10; i++)
+	{
+		std::unique_ptr <Enemy> newEnemy = std::make_unique<Enemy>();
+		enemys.push_back(std::move(newEnemy));
+	}
 
 	Input* input = Input::GetInstance();
 
@@ -56,10 +55,17 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		//---------  ここからプログラムを記述  ----------//
 
 		// 更新処理
-		sceneManager->Update();
+		enemys.remove_if([](std::unique_ptr<Enemy>& enemy) {return enemy->IsDead(); });
+		for (std::unique_ptr<Enemy>& enemy : enemys)
+		{
+			enemy->Update();
+		}
 
 		// 描画処理
-		sceneManager->Draw();
+		for (std::unique_ptr<Enemy>& enemy : enemys)
+		{
+			enemy->Draw();
+		}
 
 		//---------  ここまでにプログラムを記述  ---------//
 		// (ダブルバッファ)裏面

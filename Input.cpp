@@ -21,6 +21,9 @@ void Input::Update()
 	}
 
 	GetHitKeyStateAll(key);
+	prevMouse = mouse;
+	mouse = GetMouseInput();
+	GetMousePoint(&MouseX, &MouseY);
 }
 
 bool Input::GetKey(int _key)

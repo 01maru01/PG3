@@ -1,108 +1,86 @@
-#include <stdio.h>
-#include <list>
-#include <vector>
-#include <iostream>
-using namespace std;
+#include "DxLib.h"
+#include "SceneManager.h"
+#include "Input.h"
 
-void StringTransVec(vector<char>& vecstr, const char str[]) {
-	int len = strlen(str);
-	vecstr.resize(len);
-	for (int i = 0; i < len; i++) {
-		vecstr[i] = str[i];
-	}
-}
+// ウィンドウのタイトルに表示する文字列
+const char TITLE[] = "LE2A_17_マルイチユウキ";
 
-void PushBack(list<vector<char>>& lst, const char str[]) {
-	vector<char> vecstr;
+// ウィンドウ横幅
+const int WIN_WIDTH = 600;
 
-	StringTransVec(vecstr, str);
-	lst.push_back(vecstr);
-}
+// ウィンドウ縦幅
+const int WIN_HEIGHT = 400;
 
-void PushNewStation(list<vector<char>>& lst, const char beforeStr[], const char newStr[]) {
-	vector<char> vecstr;
-	StringTransVec(vecstr, beforeStr);
+int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine,
+	_In_ int nCmdShow) {
+	// ウィンドウモードに設定
+	ChangeWindowMode(TRUE);
 
-	for (list<vector<char>>::iterator itr = lst.begin(); itr != lst.end(); ++itr)
-	{
-		if (*itr == vecstr) {
-			itr++;
-			StringTransVec(vecstr, newStr);
-			itr = lst.insert(itr, vecstr);
+	// ウィンドウサイズを手動では変更させず、
+	// かつウィンドウサイズに合わせて拡大できないようにする
+	SetWindowSizeChangeEnableFlag(FALSE, FALSE);
+
+	// タイトルを変更
+	SetMainWindowText(TITLE);
+
+	// 画面サイズの最大サイズ、カラービット数を設定(モニターの解像度に合わせる)
+	SetGraphMode(WIN_WIDTH, WIN_HEIGHT, 32);
+
+	// 画面サイズを設定(解像度との比率で設定)
+	SetWindowSizeExtendRate(1.0);
+
+	// 画面の背景色を設定する
+	SetBackgroundColor(0x00, 0x00, 0x00);
+
+	// DXlibの初期化
+	if (DxLib_Init() == -1) { return -1; }
+
+	// (ダブルバッファ)描画先グラフィック領域は裏面を指定
+	SetDrawScreen(DX_SCREEN_BACK);
+
+	// 画像などのリソースデータの変数宣言と読み込み
+
+
+	// ゲームループで使う変数の宣言
+	SceneManager* sceneManager = SceneManager::GetInstance();
+	sceneManager->Initialize();
+
+	Input* input = Input::GetInstance();
+
+	// ゲームループ
+	while (true) {
+		input->Update();
+
+		// 画面クリア
+		ClearDrawScreen();
+		//---------  ここからプログラムを記述  ----------//
+
+		// 更新処理
+		sceneManager->Update();
+
+		// 描画処理
+		sceneManager->Draw();
+
+		//---------  ここまでにプログラムを記述  ---------//
+		// (ダブルバッファ)裏面
+		ScreenFlip();
+
+		// 20ミリ秒待機(疑似60FPS)
+		WaitTimer(20);
+
+		// Windowsシステムからくる情報を処理する
+		if (ProcessMessage() == -1) {
+			break;
+		}
+
+		// ESCキーが押されたらループから抜ける
+		if (CheckHitKey(KEY_INPUT_ESCAPE) == 1) {
 			break;
 		}
 	}
-}
+	// Dxライブラリ終了処理
+	DxLib_End();
 
-int main() {
-	list<vector<char>> lst;
-	vector<char> station;
-
-	PushBack(lst, "Tokyo");
-	PushBack(lst, "Yurakucho");
-	PushBack(lst, "Shimbashi");
-	PushBack(lst, "Hamamatsucho");
-	PushBack(lst, "Tamachi");
-	PushBack(lst, "Shinagawa");
-	PushBack(lst, "Osaki");
-	PushBack(lst, "Gotanda");
-	PushBack(lst, "Meguro");
-	PushBack(lst, "Ebisu");
-	PushBack(lst, "Shibuya");
-	PushBack(lst, "Harajuku");
-	PushBack(lst, "Yoyogi");
-	PushBack(lst, "Shinjuku");
-	PushBack(lst, "Shin-Okubo");
-	PushBack(lst, "Takadanobaba");
-	PushBack(lst, "Mejiro");
-	PushBack(lst, "Ikebukuro");
-	PushBack(lst, "Otsuka");
-	PushBack(lst, "Sugamo");
-	PushBack(lst, "Komagome");
-	PushBack(lst, "Tabata");
-	PushBack(lst, "Nippori");
-	PushBack(lst, "Uguisudani");
-	PushBack(lst, "Ueno");
-	PushBack(lst, "Okachimachi");
-	PushBack(lst, "Akihabara");
-	PushBack(lst, "Kanda");
-
-	//	描画
-	printf("1970年\n");
-	for (vector<char>& strlist : lst)
-	{
-		for (int i = 0; i < strlist.size(); i++)
-		{
-			printf("%c", strlist[i]);
-		}
-		printf("\n");
-	}
-
-	//	Push
-	PushNewStation(lst, "Tabata", "Nishi-Nippori");
-	//	描画
-	printf("\n2019年\n");
-	for (vector<char>& strlist : lst)
-	{
-		for (int i = 0; i < strlist.size(); i++)
-		{
-			printf("%c", strlist[i]);
-		}
-		printf("\n");
-	}
-
-	//	Push
-	PushNewStation(lst, "Tamachi", "Takanawa Gateway");
-	//	描画
-	printf("\n2022年\n");
-	for (vector<char>& strlist : lst)
-	{
-		for (int i = 0; i < strlist.size(); i++)
-		{
-			printf("%c", strlist[i]);
-		}
-		printf("\n");
-	}
-
+	// 正常終了
 	return 0;
 }

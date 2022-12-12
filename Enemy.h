@@ -2,11 +2,10 @@
 class Enemy
 {
 private:
-	static bool allDead;
+	static bool isAlive;
 	static const int maxHP;
 
 	int hp;
-	bool isAlive;
 	int posx;
 	int posy;
 	int r = 10;

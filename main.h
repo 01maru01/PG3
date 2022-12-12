@@ -1,7 +1,7 @@
 #pragma once
 
 // ウィンドウのタイトルに表示する文字列
-const char TITLE[] = "LE2A_17_マルイチユウキ";
+const char TITLE[] = "カーソルを敵に合わせてクリック";
 
 // ウィンドウ横幅
 const int WIN_WIDTH = 600;

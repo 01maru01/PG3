@@ -3,10 +3,10 @@
 #include "main.h"
 #include "Input.h"
 
-bool Enemy::allDead = false;
-const int Enemy::maxHP = 10;
+bool Enemy::isAlive = true;
+const int Enemy::maxHP = 5;
 
-Enemy::Enemy() :isAlive(true), hp(maxHP)
+Enemy::Enemy() :hp(maxHP)
 {
 	posx = GetRand(WIN_WIDTH);
 	posy = GetRand(WIN_HEIGHT);
@@ -25,18 +25,12 @@ void Enemy::Update()
 	}
 
 	if (hp <= 0) {
-		allDead = true;
-	}
-
-	if (allDead) {
 		isAlive = false;
 	}
 }
 
 void Enemy::Draw()
 {
-	if (isAlive) {
-		int color = hp / maxHP * 255;
-		DrawCircle(posx, posy, r, GetColor(255, hp * 25, hp * 25));
-	}
+	int color = hp / maxHP * 255;
+	DrawCircle(posx, posy, r, GetColor(255, hp * 25, hp * 25));
 }

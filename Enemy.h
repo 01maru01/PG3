@@ -2,18 +2,29 @@
 class Enemy
 {
 private:
-	static bool allDead;
-	static const int maxHP;
-
 	int hp;
 	bool isAlive;
 	int posx;
 	int posy;
 	int r = 10;
+
+	enum class State{
+		MeleeS,
+		ShootingS,
+		WithDrawS,
+	};
+	State phase;
+	int color;
 public:
 	Enemy();
 	void Update();
 	void Draw();
+
+	//	ãﬂê⁄éÀåÇó£íE
+	void Melee();
+	void Shooting();
+	void WithDraw();
+	static void (Enemy::* pFunc[])();
 
 	bool IsDead() const { return !isAlive; }
 };

@@ -3,40 +3,61 @@
 #include "main.h"
 #include "Input.h"
 
-bool Enemy::allDead = false;
-const int Enemy::maxHP = 10;
+void (Enemy::* Enemy::pFunc[])() = {
+	&Enemy::Melee,
+	&Enemy::Shooting,
+	&Enemy::WithDraw,
+};
 
-Enemy::Enemy() :isAlive(true), hp(maxHP)
+Enemy::Enemy() :isAlive(true), hp(5)
 {
-	posx = GetRand(WIN_WIDTH);
-	posy = GetRand(WIN_HEIGHT);
+	posx = WIN_WIDTH / 2.0f;
+	posy = WIN_HEIGHT / 2.0f;
+	phase = State::MeleeS;
+	color = GetColor(255, 255, 255);
+}
+
+void Enemy::Melee()
+{
+	color = GetColor(200, 0, 0);
+}
+
+void Enemy::Shooting()
+{
+	color = GetColor(0, 0, 200);
+}
+
+void Enemy::WithDraw()
+{
+	color = GetColor(0, 200, 0);
 }
 
 void Enemy::Update()
 {
-	if ((Input::GetInstance()->GetMouse() & MOUSE_INPUT_LEFT) != 0&&
-		(Input::GetInstance()->GetPrevMouse() & MOUSE_INPUT_LEFT) == 0) {
-		int x = Input::GetInstance()->GetMouseX() - posx;
-		int y = Input::GetInstance()->GetMouseY() - posy;
-
-		if (x * x + y * y <= r * r) {
-			hp--;
+	if (Input::GetInstance()->GetTrigger(KEY_INPUT_SPACE)) {
+		switch (phase)
+		{
+		case Enemy::State::MeleeS:
+			phase = Enemy::State::ShootingS;
+			break;
+		case Enemy::State::ShootingS:
+			phase = Enemy::State::WithDrawS;
+			break;
+		case Enemy::State::WithDrawS:
+			phase = Enemy::State::MeleeS;
+			break;
+		default:
+			break;
 		}
 	}
 
-	if (hp <= 0) {
-		allDead = true;
-	}
-
-	if (allDead) {
-		isAlive = false;
-	}
+	(this->*pFunc[static_cast<size_t>(phase)])();
 }
 
 void Enemy::Draw()
 {
+	DrawFormatString(50, 50, 0xFFFFFF, "Press Space\nnow state:%d", static_cast<size_t>(phase));
 	if (isAlive) {
-		int color = hp / maxHP * 255;
-		DrawCircle(posx, posy, r, GetColor(255, hp * 25, hp * 25));
+		DrawCircle(posx, posy, r, color);
 	}
 }

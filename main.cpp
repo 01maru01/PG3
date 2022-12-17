@@ -1,15 +1,15 @@
 #include "DxLib.h"
 #include "main.h"
 #include "Input.h"
-#include "Enemy.h"
-#include <list>
-#include <memory>
+#include "IShape.h"
+#include "Circle.h"
+#include "Rectangle.h"
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine,
 	_In_ int nCmdShow) {
 	// ウィンドウモードに設定
 	ChangeWindowMode(TRUE);
-
+	
 	// ウィンドウサイズを手動では変更させず、
 	// かつウィンドウサイズに合わせて拡大できないようにする
 	SetWindowSizeChangeEnableFlag(FALSE, FALSE);
@@ -36,16 +36,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 
 	// ゲームループで使う変数の宣言
-	std::list<std::unique_ptr<Enemy>> enemys;
-
-	for (size_t i = 0; i < 10; i++)
-	{
-		std::unique_ptr <Enemy> newEnemy = std::make_unique<Enemy>();
-		enemys.push_back(std::move(newEnemy));
-	}
-
 	Input* input = Input::GetInstance();
 
+	IShape* shape;
+	shape = new RectAngle();
 	// ゲームループ
 	while (true) {
 		input->Update();
@@ -55,17 +49,18 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		//---------  ここからプログラムを記述  ----------//
 
 		// 更新処理
-		enemys.remove_if([](std::unique_ptr<Enemy>& enemy) {return enemy->IsDead(); });
-		for (std::unique_ptr<Enemy>& enemy : enemys)
-		{
-			enemy->Update();
+		if (input->GetTrigger(KEY_INPUT_1)) {
+			delete shape;
+			shape = new Circle();
+		}
+		if (input->GetTrigger(KEY_INPUT_2)) {
+			delete shape;
+			shape = new RectAngle();
 		}
 
 		// 描画処理
-		for (std::unique_ptr<Enemy>& enemy : enemys)
-		{
-			enemy->Draw();
-		}
+		DrawFormatString(10, 10, 0xFFFFFF, "size:%f", shape->size());
+		shape->Draw();
 
 		//---------  ここまでにプログラムを記述  ---------//
 		// (ダブルバッファ)裏面

@@ -1,20 +1,19 @@
 #include "Circle.h"
-#include "DxLib.h"
+#include <stdio.h>
 #include "main.h"
 
-Circle::Circle()
+Circle::Circle(int r)
 {
-	posX = WIN_WIDTH / 2;
-	posY = WIN_HEIGHT / 2;
-	r = 50;
+	this->r = r;
+	s_area = 0.0f;
 }
 
-float Circle::size()
+void Circle::size()
 {
-	return r * r * 3.14;
+	s_area = r * r * 3.14;
 }
 
 void Circle::Draw()
 {
-	DrawCircle(posX, posY, r, 0xFFFFFF);
+	printf("Circle\nradius:%d\nsize:%f\n", r, s_area);
 }

@@ -3,12 +3,11 @@
 class Circle :public IShape
 {
 private:
-	int posX;
-	int posY;
 	int r;
+	float s_area;
 public:
-	Circle();
-	float size() override;
+	Circle(int r);
+	void size() override;
 	void Draw() override;
 };
 

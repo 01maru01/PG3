@@ -1,23 +1,19 @@
 #include "Rectangle.h"
-#include "DxLib.h"
-#include "main.h"
+#include <stdio.h>
 
-RectAngle::RectAngle()
+RectAngle::RectAngle(int width_, int height_)
 {
-	posX = WIN_WIDTH / 2;
-	posY = WIN_HEIGHT / 2;
-	width = 100;
-	height = 100;
+	width = width_;
+	height = height_;
+	s_area = 0.0f;
 }
 
-float RectAngle::size()
+void RectAngle::size()
 {
-	return width * height;
+	s_area = width * height;
 }
 
 void RectAngle::Draw()
 {
-	int rbX = posX + width;
-	int rbY = posY + height;
-	DrawBox(posX, posY, rbX, rbY, 0xFFFFFF, true);
+	printf("RectAngle\nWidth:%d Height:%d\nsize:%f\n", width, height, s_area);
 }

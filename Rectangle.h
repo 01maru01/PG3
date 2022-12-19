@@ -4,13 +4,12 @@
 class RectAngle :public IShape
 {
 private:
-	int posX;
-	int posY;
 	int width;
 	int height;
+	float s_area;
 public:
-	RectAngle();
-	float size() override;
+	RectAngle(int width_,int height_);
+	void size() override;
 	void Draw() override;
 };
 

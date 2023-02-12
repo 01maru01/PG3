@@ -4,7 +4,7 @@
 
 int main() {
 	MenberManager* menMan = MenberManager::GetInstance();
-	TaskManager taskMan;
+	TaskManager* taskMan = TaskManager::GetInstance();
 	
 	menMan->Add("マルイチユウキ", "LE2A");
 	menMan->Add("ヤマダタロウ", "LE2B");
@@ -15,12 +15,14 @@ int main() {
 
 	printf("タスク内容\n\n");
 
-	taskMan.Add(2, "企画", "企画決め", Task::p_High, time_t());
-	taskMan.Add(3, "プロトタイプ", "Unityでプロトタイプの作成", Task::p_Low, time_t());
-	taskMan.Draw();
-	taskMan.Add(1, "α版", "自作エンジンでα版作成", Task::p_Medium, time_t());
-	taskMan.Change(1, Task::p_High,"","Unityで遊びが確認できるレベルのプロトタイプ作成");
-	taskMan.Draw();
+	taskMan->Add(2, "企画", "企画決め", Task::p_High, time_t());
+	taskMan->Add(3, "プロトタイプ", "Unityでプロトタイプの作成", Task::p_Low, time_t());
+	taskMan->Draw();
+	taskMan->Add(1, "α版", "自作エンジンでα版作成", Task::p_Medium, time_t());
+	taskMan->Change(1, Task::p_High,"","Unityで遊びが確認できるレベルのプロトタイプ作成");
+	taskMan->Draw();
 
+	TaskManager::DeleteInstance();
+	MenberManager::DeleteInstance();
 	return 0;
 }

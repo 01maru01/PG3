@@ -1,6 +1,17 @@
 #include "TaskManager.h"
 #include "MenberManager.h"
 
+TaskManager* TaskManager::GetInstance()
+{
+	static TaskManager* instance = new TaskManager;
+	return instance;
+}
+
+void TaskManager::DeleteInstance()
+{
+	delete TaskManager::GetInstance();
+}
+
 void TaskManager::Add(int menberID, std::string name_, std::string detail_, Task::EPriority priority, time_t deadLine_)
 {
 	Task task_;

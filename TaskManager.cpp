@@ -12,7 +12,7 @@ void TaskManager::DeleteInstance()
 	delete TaskManager::GetInstance();
 }
 
-void TaskManager::Add(int menberID, std::string name_, std::string detail_, Task::EPriority priority, time_t deadLine_)
+void TaskManager::Add(int menberID, std::string name_, std::string detail_, Task::EPriority priority, Date deadLine_)
 {
 	Task task_;
 
@@ -54,7 +54,7 @@ void TaskManager::SetStatus(int id_, bool isDone)
 
 }
 
-void TaskManager::Change(int id_, Task::EPriority priority, std::string name_, std::string detail_, time_t deadLine_)
+void TaskManager::Change(int id_, Task::EPriority priority, std::string name_, std::string detail_, Date deadLine_)
 {
 	for (auto itr = task.begin(); itr != task.end(); ++itr) {
 		if (itr->GetId() == id_) {
@@ -62,7 +62,9 @@ void TaskManager::Change(int id_, Task::EPriority priority, std::string name_, s
 			if (priority != Task::p_Error) itr->SetPriority(priority);
 			if (name_ != "") itr->SetTaskName(name_);
 			if (detail_ != "") itr->SetDetail(detail_);
-			if (deadLine_ != time_t()) itr->SetDeadLine(deadLine_);
+			if (deadLine_.GetDay() != 0 &&
+				deadLine_.GetMonth() != 0 &&
+				deadLine_.GetYear() != 0 ) itr->SetDeadLine(deadLine_);
 
 			printf("ID:%d‚Ì—v‘f‚ª•ÏX‚³‚ê‚Ü‚µ‚½\n", id_);
 			return;
@@ -92,6 +94,7 @@ void TaskManager::Draw()
 		printf("ID:%d Name:%s Detail:%s\n", itr->GetId(), itr->GetTaskName().c_str(), itr->GetDetail().c_str());
 		MenberManager::GetInstance()->Draw(itr->GetMenberID());
 		printf("     Priority:%s IsDone:%d\n", priorityStr.c_str(), itr->IsDone());
+		printf("     ’÷‚ßØ‚è:%d”N%dŒ%d“ú\n", itr->GetDeadLine().GetYear(), itr->GetDeadLine().GetMonth(), itr->GetDeadLine().GetDay());
 		//	’÷‚ßØ‚è‚Ü‚Å
 	}
 

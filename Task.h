@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "Date.h"
 
 class Task
 {
@@ -16,15 +17,15 @@ private:
 	int menberId = -1;
 	std::string detail;
 	EPriority priority = p_Error;
-	time_t deadLine = {};
+	Date deadLine;
 	bool isDone = false;
 public:
-	void SetInfo(std::string name_, int id_, std::string detail_, EPriority priority_, time_t deadLine_);
+	void SetInfo(std::string name_, int id_, std::string detail_, EPriority priority_, Date deadLine_);
 	void SetTaskName(std::string name_) { name = name_; }
 	void SetMenberID(int id_) { menberId = id_; }
 	void SetDetail(std::string detail_) { detail = detail_; }
 	void SetPriority(EPriority priority_) { priority = priority_; }
-	void SetDeadLine(time_t deadLine_) { deadLine = deadLine_; }
+	void SetDeadLine(Date deadLine_) { deadLine = deadLine_; }
 	void SetStatus(bool isDone_) { isDone = isDone_; }
 	void SetId(int id_) { id = id_; }
 
@@ -32,7 +33,7 @@ public:
 	std::string GetDetail() { return detail; }
 	int GetMenberID() { return menberId; }
 	EPriority GetPriority() { return priority; }
-	time_t GetDeadLine() { return deadLine; }
+	Date GetDeadLine() { return deadLine; }
 	bool IsDone() { return isDone; }
 	int GetId() { return id; }
 };

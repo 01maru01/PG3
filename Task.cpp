@@ -1,6 +1,6 @@
 #include "Task.h"
 
-void Task::SetInfo(std::string name_, int id_, std::string detail_, EPriority priority_, time_t deadLine_)
+void Task::SetInfo(std::string name_, int id_, std::string detail_, EPriority priority_, Date deadLine_)
 {
 	SetTaskName(name_);
 

@@ -16,10 +16,10 @@ public:
 	TaskManager(const TaskManager& obj) = delete;
 	TaskManager& operator=(const TaskManager& obj) = delete;
 
-	void Add(int menberID, std::string name_, std::string detail_, Task::EPriority priority, time_t deadLine_);
+	void Add(int menberID, std::string name_, std::string detail_, Task::EPriority priority, Date deadLine_);
 	void Delete(int id_);
 	void SetStatus(int id_, bool isDone);
-	void Change(int id_, Task::EPriority priority = Task::p_Error, std::string name_ = "", std::string detail_ = "", time_t deadLine_ = time_t());
+	void Change(int id_, Task::EPriority priority = Task::p_Error, std::string name_ = "", std::string detail_ = "", Date deadLine_ = Date(0, 0, 0));
 	void Draw();
 };
 

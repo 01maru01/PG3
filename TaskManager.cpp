@@ -96,6 +96,17 @@ void TaskManager::Draw()
 		printf("     Priority:%s IsDone:%d\n", priorityStr.c_str(), itr->IsDone());
 		printf("     ’÷‚ßØ‚è:%d”N%dŒ%d“ú\n", itr->GetDeadLine().GetYear(), itr->GetDeadLine().GetMonth(), itr->GetDeadLine().GetDay());
 		//	’÷‚ßØ‚è‚Ü‚Å
+		int diffDay = itr->GetDeadLine().CalcDifDay();
+
+		if (diffDay > 0) {
+			printf("’÷‚ßØ‚è‚Ü‚Å‚ ‚Æ%d“ú\n", diffDay);
+		}
+		else if (diffDay < 0) {
+			printf("’÷‚ßØ‚è‚©‚ç%d“ú’x‚ê\n", -diffDay);
+		}
+		else {
+			printf("’÷‚ßØ‚è“–“ú‚Å‚·\n");
+		}
 	}
 
 	printf("\n");

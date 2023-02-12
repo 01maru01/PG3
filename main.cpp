@@ -17,7 +17,7 @@ int main() {
 	printf("タスク内容\n\n");
 
 	taskMan->Add(2, "企画", "企画決め", Task::p_High, Date{ 2023,2,9 });
-	taskMan->Add(3, "プロトタイプ", "Unityでプロトタイプの作成", Task::p_Low, Date{ 2023,2,21 });
+	taskMan->Add(3, "プロトタイプ", "Unityでプロトタイプの作成", Task::p_Low, Date{ 2023,2,13 });
 	taskMan->Draw();
 	taskMan->Add(1, "α版", "自作エンジンでα版作成", Task::p_Medium, Date{ 2023,3,1 });
 	taskMan->Change(1, Task::p_High,"","Unityで遊びが確認できるレベルのプロトタイプ作成");

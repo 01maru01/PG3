@@ -15,5 +15,6 @@ public:
 	int GetYear() { return year; }
 	int GetMonth() { return month; }
 	int GetDay() { return day; }
+	int CalcDifDay();
 };
 
